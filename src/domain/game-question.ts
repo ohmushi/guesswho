@@ -1,4 +1,6 @@
 export interface GameQuestion {
     question: string
-    answer: 'yes' | 'no' | null
+    answer: Answer | null
 }
+
+export type Answer = 'yes' | 'no'

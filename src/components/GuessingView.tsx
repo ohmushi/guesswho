@@ -6,13 +6,13 @@ import QuestionPanel from "./QuestionPanel";
 import GameControls from "./GameControls";
 import { Game } from "@/domain/game";
 import { GameQuestion } from "@/domain/game-question";
+import AskedQuestions from "./AskedQuestions";
 
-interface GuessWhoGameProps {
+interface GuessingViewProps {
     game: Game
-    isGuessing: boolean
 }
 
-const GuessWhoGame = ({ game, isGuessing }: GuessWhoGameProps) => {
+const GuessingView = ({ game }: GuessingViewProps) => {
     const [questions, setQuestions] = useState<GameQuestion[]>(game.questions);
 
     const handleAskQuestion = (question: string) => {
@@ -40,20 +40,4 @@ const GuessWhoGame = ({ game, isGuessing }: GuessWhoGameProps) => {
     );
 };
 
-interface AskedQuestionsProps {
-    questions: string[]
-}
-const AskedQuestions = ({ questions }: AskedQuestionsProps) => {
-    return (
-        <div className="mt-4 p-2 border rounded">
-            <h2 className="text-lg font-semibold">Questions posées :</h2>
-            <ul>
-                {questions.map((q, index) => (
-                    <li key={index} className="text-gray-700">- {q}</li>
-                ))}
-            </ul>
-        </div>
-    );
-};
-
-export default GuessWhoGame;
+export default GuessingView;
