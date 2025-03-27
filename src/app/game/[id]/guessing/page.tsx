@@ -1,19 +1,19 @@
 import GuessingView from "@/components/GuessingView"
-import { Game as GameType } from "@/domain/game"
+import { load_game_by_id } from "../../game.facade"
+import { GameQuestion } from "@/domain/game-question"
+import { notFound } from "next/navigation"
 
 interface GuessingPageProps {
     params: Promise<{ id: string }>
 }
 
 export default async function GuessingPage({ params }: GuessingPageProps) {
-    const game = await load_game_by_id((await params).id)
+    const { id } = await params
+    const game = await load_game_by_id(id)
+    if (!game) return notFound()
+
     return (
         <GuessingView game={game} />
     )
 }
 
-function load_game_by_id(id: string): Promise<GameType> {
-    return Promise.resolve({
-        questions: []
-    } satisfies GameType)
-}

@@ -1,33 +1,27 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GameBoard from "./GameBoard";
 import QuestionPanel from "./QuestionPanel";
 import GameControls from "./GameControls";
 import { Game } from "@/domain/game";
 import { GameQuestion } from "@/domain/game-question";
 import AskedQuestions from "./AskedQuestions";
+import { notFound } from "next/navigation";
 
 interface GuessingViewProps {
-    game: Game
+    game: Game,
 }
 
 const GuessingView = ({ game }: GuessingViewProps) => {
-    const [questions, setQuestions] = useState<GameQuestion[]>(game.questions);
-
     const handleAskQuestion = (question: string) => {
-        setQuestions([...questions, {
+        const newId = 1 + Math.max(...game.questionsHistory.map(q => +(q.id.split('-').pop() ?? '0')))
+        game.currentQuestion = {
+            id: `${game.id}-${newId}`,
             question: question,
-            answer: null
-        } satisfies GameQuestion]);
-    };
-
-    const handleReset = () => {
-        setQuestions([]);
-    };
-
-    const handleGuess = () => {
-        alert("Devinez quel personnage a été choisi !");
+            answer: null,
+            askedAt: new Date()
+        } satisfies GameQuestion
     };
 
     return (
@@ -35,7 +29,10 @@ const GuessingView = ({ game }: GuessingViewProps) => {
             <h1 className="text-2xl font-bold text-center">Guess Who?</h1>
             <QuestionPanel onAskQuestion={handleAskQuestion} />
             <GameBoard />
-            <AskedQuestions questions={questions} />
+            <AskedQuestions
+                currentQuestion={game.currentQuestion} 
+                questions={game.questionsHistory}
+            />
         </div>
     );
 };

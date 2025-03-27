@@ -1,36 +1,23 @@
-'use client'
-
 import MakeGuessView from "@/components/MakeGuessView"
 import { characters } from "@/data/characters"
-import { GameQuestion } from "@/domain/game-question"
-import { useState } from "react"
+import { load_game_by_id } from "../../game.facade"
+import { notFound } from "next/navigation"
+import { GameProvider } from "@/contexts/game.context"
 
-const MakeGuessPage = () => {
+interface MakeGuessPageProps {
+  params: Promise<{ id: string }>
+}
+const MakeGuessPage = async ({ params }: MakeGuessPageProps) => {
   const character = characters[0]
-  const [currentQuestion, setCurrentQuestion] = useState<GameQuestion | null>({
-    question: "Chauve ?",
-    answer: null
-  } satisfies GameQuestion);
-  const [questions, setQuestions] = useState<GameQuestion[]>([])
-
-  const handleAnswerQuestion = async (answer: 'yes' | 'no') => {
-    // TODO
-    if (!currentQuestion) return
-
-    const answered = { ...currentQuestion, answer: answer } satisfies GameQuestion
-    setQuestions([...questions, answered])
-    setCurrentQuestion(null)
-  }
-
-
-
+  const { id } = await params
   return (
-    <MakeGuessView
-      character={character}
-      currentQuestion={currentQuestion}
-      questions={questions}
-      onAnswer={handleAnswerQuestion}
-    />
+    <GameProvider id={id}>
+      <MakeGuessView
+        character={character}
+        gameId={id}
+      />
+    </GameProvider>
+
   )
 }
 
