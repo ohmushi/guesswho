@@ -33,10 +33,10 @@ const AskedQuestions = ({ currentQuestion, questions }: AskedQuestionsProps) => 
       <h2 className="text-lg font-semibold">Questions posées :</h2>
       <ul>
         {currentQuestion && (
-          <li key={currentQuestion.id} className="text-gray-700">{questionDisplayed(currentQuestion)}</li>
+          <li key={currentQuestion.id}>{questionDisplayed(currentQuestion)}</li>
         )}
         {questionsOrderedAsMostRecentFirst(questions).map((q) => (
-          <li key={q.id} className="text-gray-700">{questionDisplayed(q)}</li>
+          <li key={q.id}>{questionDisplayed(q)}</li>
         ))}
       </ul>
     </div>

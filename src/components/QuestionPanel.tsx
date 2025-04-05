@@ -1,16 +1,18 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 
 interface QuestionPanelProps {
-    onAskQuestion: (q: string) => void
+  active: boolean
+  onAskQuestion: (q: string) => void
 }
-const QuestionPanel: React.FC<QuestionPanelProps> = ({ onAskQuestion }) => {
+const QuestionPanel: React.FC<QuestionPanelProps> = ({ active = true, onAskQuestion }) => {
   const [question, setQuestion] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (question.trim()) {
-      onAskQuestion(question.trim());
+    const questionContent = question.trim()
+    if (questionContent) {
+      onAskQuestion(questionContent);
       setQuestion("");
     }
   };
@@ -25,7 +27,7 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({ onAskQuestion }) => {
           placeholder="Posez une question..."
           className="w-full p-2 border rounded"
         />
-        <button type="submit" className="mt-2 w-full bg-blue-500 text-white p-2 rounded">
+        <button disabled={!active} type="submit" className="btn-primary mt-2 w-full">
           Poser la question
         </button>
       </form>

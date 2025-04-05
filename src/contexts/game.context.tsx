@@ -1,14 +1,15 @@
 'use client'
 
 import { load_game_by_id, save_game } from "@/app/game/game.facade";
-import { answerCurrentQuestionInGame, Game } from "@/domain/game";
-import { Answer } from "@/domain/game-question";
+import { answerCurrentQuestionInGame, Game, gameWithNewQuestion } from "@/domain/game";
+import { Answer, GameQuestion } from "@/domain/game-question";
 import { createContext, useContext, useState, ReactNode, Context, FC, useEffect, useCallback } from "react";
 
 interface GameContextType {
     game: Game
     answerQuestion: (answer: Answer) => Promise<void>
     loadGameById: (id: Game['id']) => Promise<void>
+    askQuestion: (question: GameQuestion['question']) => Promise<void>
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -25,6 +26,10 @@ export const GameProvider: FC<{ id: Game['id'], children: ReactNode }> = ({ id, 
         setGame(answerCurrentQuestionInGame(answer, game))
     }
 
+    const askQuestion = async (question: GameQuestion['question']) => {
+        setGame(gameWithNewQuestion(game, question))
+    }
+
     const loadGameById = useCallback(async (id: Game['id']) => {
         setGame(await load_game_by_id(id))
     }, [id])
@@ -34,7 +39,7 @@ export const GameProvider: FC<{ id: Game['id'], children: ReactNode }> = ({ id, 
     }, [loadGameById]);
 
     return (
-        <GameContext.Provider value={{ game, answerQuestion, loadGameById }}>
+        <GameContext.Provider value={{ game, answerQuestion, loadGameById, askQuestion }}>
             {children}
         </GameContext.Provider>
     )
