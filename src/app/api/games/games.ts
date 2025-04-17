@@ -1,8 +1,10 @@
+"use server-only";
+
 import { Game } from "@/domain/game";
 
-export function load_game_by_id(id: Game["id"]): Promise<Game> {
-  return Promise.resolve({
-    id: id,
+export const games: Game[] = [
+  {
+    id: "1",
     currentQuestion: {
       id: "1-3",
       question: "Est-il chauve ?",
@@ -23,9 +25,5 @@ export function load_game_by_id(id: Game["id"]): Promise<Game> {
         askedAt: new Date(),
       },
     ],
-  } satisfies Game);
-}
-
-export function save_game(game: Game): Promise<void> {
-  return Promise.resolve();
-}
+  },
+];

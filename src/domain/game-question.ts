@@ -1,8 +1,8 @@
 export interface GameQuestion {
-    id: string
-    question: string
-    answer: Answer | null
-    askedAt: Date | null
+  id: string;
+  question: string;
+  answer: Answer | null;
+  askedAt: Date | null;
 }
 
-export type Answer = 'yes' | 'no'
+export type Answer = "yes" | "no";

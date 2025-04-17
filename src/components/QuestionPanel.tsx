@@ -1,8 +1,7 @@
 import React, { FormEvent, useState } from "react";
 
-
 interface QuestionPanelProps {
-    onAskQuestion: (q: string) => void
+  onAskQuestion: (q: string) => void;
 }
 const QuestionPanel: React.FC<QuestionPanelProps> = ({ onAskQuestion }) => {
   const [question, setQuestion] = useState("");
@@ -25,7 +24,10 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({ onAskQuestion }) => {
           placeholder="Posez une question..."
           className="w-full p-2 border rounded"
         />
-        <button type="submit" className="mt-2 w-full bg-blue-500 text-white p-2 rounded">
+        <button
+          type="submit"
+          className="mt-2 w-full bg-blue-500 text-white p-2 rounded"
+        >
           Poser la question
         </button>
       </form>
